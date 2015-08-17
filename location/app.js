@@ -43,7 +43,14 @@ var User = require('./models/User');
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-app.locals.title = 'LinkUp';
+app.locals.title = 'Auth with Passport';
+
+passport.deserializeUser(User.deserializeUser());
+app.locals.title = 'Auth with Passport';
+
+// connect to MongoDB
+mongoose.connect('mongodb://localhost/passport-auth');
+
 
 
 // catch 404 and forward to error handler
