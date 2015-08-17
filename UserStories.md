@@ -9,6 +9,7 @@ User will be able to:
 - connect with another user to initiate navigation for 'meetup' purposes
 - block users or refuse connection requests
 - end navigation and socket connection
+- log out once user is done with application
 
 ----
 
