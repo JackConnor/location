@@ -1,0 +1,56 @@
+.locating {
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  margin: 50px auto;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  z-index: 0;
+  font-size: 0.875em;
+  color: #767676;
+  font-weight: normal;
+}
+.locating:before {
+  opacity: 0;
+  content: "\0020";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #767676;
+  z-index: 2;
+  -webkit-animation: locating 1.5s ease-out infinite;
+  animation: locating 1.5s ease-out infinite;
+}
+
+@-webkit-keyframes locating {
+  0% {
+    -webkit-transform: scale(0.5, 0.5);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  100% {
+    -webkit-transform: scale(1.2, 1.2);
+    opacity: 0.0;
+  }
+}
+@keyframes locating {
+  0% {
+    -webkit-transform: scale(0.5, 0.5);
+            transform: scale(0.5, 0.5);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  100% {
+    -webkit-transform: scale(1.2, 1.2);
+            transform: scale(1.2, 1.2);
+    opacity: 0.0;
+  }
+}
