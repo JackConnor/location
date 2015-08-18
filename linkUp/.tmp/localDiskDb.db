@@ -1,0 +1,28 @@
+{
+  "data": {
+    "user": []
+  },
+  "schema": {
+    "user": {
+      "facebookId": {
+        "type": "string",
+        "unique": true
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
+    }
+  },
+  "counters": {
+    "user": {}
+  }
+}
