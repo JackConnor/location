@@ -8,13 +8,13 @@ var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
-
+var http         = require('http').Server(app);
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-// var configDB = require('./config/database.js');
+var configDB = require('./config/database.js');
 
 // configuration ===============================================================
 mongoose.connect('mongodb://localhost/linkUp'); // connect to our database
@@ -38,5 +38,5 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('../easyAuth/models/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-app.listen(port);
+http.listen(port);
 console.log('The magic happens on port ' + port);
