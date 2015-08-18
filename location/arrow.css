@@ -1,0 +1,11 @@
+*{margin:0;padding:0;font-family:arial;}
+table{width:100%;border-collapse:collapse;}
+td{border:solid 1px #000; padding:2px 10px;}
+tr td:first-child,p{text-align:right;}
+img{margin:0 auto;display:block;width:75%;height:auto;}
+
+
+
+body{
+  background: blue;
+}
