@@ -8,8 +8,8 @@ module.exports = {
     },
 
     'twitterAuth' : {
-        'consumerKey'       : 'your-consumer-key-here',
-        'consumerSecret'    : 'your-client-secret-here',
+        'consumerKey'       : 'DQDqgK7MaCQCOg4cpTKnLMTQu',
+        'consumerSecret'    : 'NPH0BTtDXoqBJIiMFVB54PGOjPDVlobFbjEr10ZtQnFSf0xyDI',
         'callbackURL'       : 'http://localhost:8080/auth/twitter/callback'
     },
 
