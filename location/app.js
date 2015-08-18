@@ -46,7 +46,7 @@ passport.deserializeUser(User.deserializeUser());
 app.locals.title = 'Auth with Passport';
 
 passport.deserializeUser(User.deserializeUser());
-app.locals.title = 'Auth with Passport';
+app.locals.title = 'Log in to LinkUp.';
 
 // connect to MongoDB
 mongoose.connect('mongodb://localhost/passport-auth');
