@@ -2,10 +2,25 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <body class="container">
+    <br>
+    <div class="row jumbotron text-center">
+      <h1><%= title %></h1>
+    </div>
+    <div class="row text-center">
+      <div class="panel panel-default col-xs-4 col-xs-offset-4">
+        <div class="panel-body">
+          <% if (user) { %>
+            <p>You are currently logged in as<br><strong><%= user.username %></strong></p>
+            <a href="/logout" class="btn btn-danger">Logout</a>
+          <% } else { %>
+            <a href="/login" class="btn btn-primary">Login</a>
+            <a href="/register" class="btn btn-info">Register</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
