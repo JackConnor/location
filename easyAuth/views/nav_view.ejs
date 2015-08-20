@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Socket Location</title>
+    <script src="https://code.jquery.com/jquery-1.7.1.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+    <script src="test.js"></script>
+
+        <!--Begin CSS ------------>
+        <!------------------------>
+        <style media="screen">
+
+          .locationBtn {
+            margin-left: 20px;
+            outline: none;
+          }
+
+          .info_container {
+            height: 700px;
+            width: 300px;
+            background-color: purple;
+            color: white;
+          }
+
+          .signupContainer {
+            margin-left: 5%;
+            width: 35%;
+            height: 190px;
+            background-color: #A0E6E6;
+            display: inline-block;
+          }
+
+          .userContainer {
+            display: inline-block;
+            width: 40%;
+            height: 100%;
+            min-height: 100px;
+            background-color: #CBFFE5;
+            margin-left: 25px;
+          }
+
+          #arrow {
+            height: 200px;
+            width: 150px;
+          }
+
+          #holder {
+            display: inline-block;
+          }
+
+          #joinBtn {
+            height: 40px;
+            width: 75px;
+            background-color: purple;
+            margin-top: 25px;
+            margin-left: 40%;
+            font-size: 24px;
+            color: white;
+            border-radius: 5%;
+          }
+
+          #name {
+            height: 40px;
+            font-size: 24px;
+            width: 80%;
+            margin: 35px 10% 0 10%;
+            text-align: center;
+            color: #337575;
+          }
+
+          #usersList {
+            margin-right: 40px;
+
+          }
+
+          #usersList li {
+            height: 40px;
+            width: 100%;
+            margin: 0 auto 2px auto;
+            background-color: #FFEBFF;
+            list-style-type: none;
+            text-align: center;
+            font-size: 29px;
+          }
+
+        </style>
+  </head>
+  <body>
+    <!--Begin HTML ----------->
+    <!------------------------>
+    <h1>Socket Location, sexy!</h1>
+    <div class="signupContainer">
+      <input id="name" type="text" name="name" value="Please enter name">
+      <input id="joinBtn" type="button" name="name" value="Join">
+      <input id="arrowButton" type="button" name="name" value="a">
+    </div>
+
+    <div class="userContainer">
+      <h3>Connected Users</h3>
+      <ul id='usersList'></ul>
+    </div>
+
+
+    <div class="holder">
+
+      <img src="https://indieandpics.files.wordpress.com/2010/03/up-arrow-inv.png" id="arrImage" />
+
+    </div>
+
+    <div class="info_container">
+      <h2 id="sender"></h2>
+      <h2 id="latitude"></h2>
+      <h2 id="longitude"></h2>
+      <h2 id="compass"></h2>
+      <h2 id="distance"></h2>
+      <h2 id="myOrientation"></h2>
+      <h2 id="theta"></h2>
+      <h2 id="thetaNum"></h2>
+      <h2 id="test1"></h2>
+      <h2 id="test2"></h2>
+      <h2 id="test3"></h2>
+    </div>
+
+
+
+    <!--Begin Javascript ----------->
+    <!------------------------------>
+    <script type="text/javascript">
+    //create global variables
+    /////////////////////////
+    var socket = io();
+
+    ////begin jquery zone
+    /////////////////////
+    $(function(){
+
+      //non-socket event listeners//
+      //////////////////////////////
+
+        $('#name').on('click', function(){
+          $(this).val("");
+        })
+
+
+      //socket-based sending and emiting event listeners
+      //////////////////////////////////////////////////
+      $('#joinBtn').on('click', function(){
+        console.log(socket.id);
+        console.log($("#name").val())
+        var name = $("#name").val();
+        socket.emit('new-user', {socketId: socket.id, name: name});
+      })
+
+
+
+
+      //socket-based receiving action and event listeners
+      ///////////////////////////////////////////////////
+
+      socket.on('add-user', function(data){
+        console.log('we have a new user: '+data.name);
+        $('#usersList').append('<li>'+data.name+"<button class='locationBtn' id="+data.socketId+">Send Location</button></li>");
+        $('.locationBtn').on('click', function(){
+          var receiver = this.id;
+          var sender = $('#name').val();
+          var location = navigator.geolocation.getCurrentPosition(function(data){
+            console.log(data)
+            var myLocation = {long: data.coords.longitude, lat: data.coords.latitude}
+            console.log(receiver);
+            socket.emit('sending-location', {sender: sender, receiver: receiver, location: myLocation})
+          })
+        })
+      })
+      //begin experimental image stuff////
+      ////////////////////////////////////
+
+      var x = 0;
+
+
+      $('#arrowImage').on('click', function(){
+        console.log('clicked');
+        console.log($(this).parent());
+
+      })
+
+      ///end image stuff
+      ///////////////////
+
+      //the receiver for privat location messages
+      socket.on('private-location', function(data) {
+        console.log(data);
+          console.log(data.sender+" has sent their location. longitude: "+data.location.long+", latitude: "+data.location.lat)
+      });
+
+      $('#arrow').on('click', function(){
+        console.log('sup');
+        socket.emit('arrow-test', {sender: "Queen Mary", location: {lat: 51.5072, long: 0.1275}})
+      })
+
+      var x = 0;
+
+      // socket.on('arrow-test', function(data){
+      //   console.log(data);
+      //   if (window.DeviceOrientationEvent) {
+      //     var data = data;
+      //     // socket.emit('arrow-test', "event triggered");
+      //     console.log('we have an event');
+      //       window.addEventListener('deviceorientation', function(orientData) {
+      //         var data = data;
+      //         console.log('or data is...');
+      //         console.log(orientData);
+      //         // socket.emit('arrow-test', "it's: "+e);
+      //         var c = orientData.compassHeading || orientData.webkitCompassHeading || 0;
+      //         // deviceOrientationHandler(c);
+      //         // console.log(deviceOrientationHandler(1,1,1,c, 1))
+      //         navigator.geolocation.getCurrentPosition(function(myData){
+      //           var data = data;
+      //           console.log(data);
+      //           console.log("their data should be: " +data);
+      //           console.log("my location should be: "+myData);
+      //           // var latdif = (Math.abs(data.location.lat - myData.coords.latitude)*110570);
+      //           // var longdif = (Math.abs(data.location.long - myData.coords.longitude)*92000);
+      //           // var totalDist = Math.sqrt((latdif*latdif) + (longdif*longdif));
+      //           // console.log("distance difference is "+latdif+" meters");
+      //           console.log('their lat: '+data.location.lat);
+      //           console.log('our lat: '+myData.coords.latitude);
+      //           $('#sender').html("sender is: "+data.sender);
+      //           $('#latitude').html("long is: "+data.location.lat);
+      //           $('#longitude').html("long is: "+data.location.long);
+      //           $('#compass').html("orientation is " +data.orientation);
+      //
+      //           lat1 = data.location.lat;
+      //           lat2 = myData.coords.latitude;
+      //           lon1 = data.location.long;
+      //           lon2 = myData.coords.longitude;
+      //
+      //           var R = 6371; // km
+      //           var dLat = (lat2-lat1)*0.017453292519943295;
+      //           var dLon = (lon2-lon1)*0.017453292519943295;
+      //           var lat1 = lat1*.017453292519943295;
+      //           var lat2 = lat2*0.017453292519943295;
+      //
+      //           var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      //                   Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+      //           var cl = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      //           var d = R * cl;
+      //
+      //           console.log("fancy distance should be(c): "+cl)
+      //           console.log("fancy distance should be(d): "+d*1000);
+      //           $('#distance').html('distance is: '+d*1000);
+      //
+      //           //begin code for the arrow
+      //           //////////////////////////
+      //
+      //           lat1 = data.location.lat;
+      //           console.log(lat1);
+      //           lat2 = myData.coords.latitude;
+      //           console.log(lat2);
+      //           lon1 = data.location.long;
+      //           console.log(lon1);
+      //           lon2 = myData.coords.longitude;
+      //           console.log(lon2);
+      //           ///note this code doubles out a previous change, you must alter this before any kind of real deployment///////////////////////
+      //
+      //           var angle = data.orientation;
+      //           console.log(angle);
+      //           var container = document.querySelector('#arrowImage');
+      //           //begin first attempt at tracking based on location
+      //           ///////////////////////////////////////////////////
+      //
+      //           var delta = lon2 - lon1;
+      //           console.log("delta is: "+delta)
+      //
+      //           var theta = Math.atan2( Math.sin(delta)*Math.cos(lat2), Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(delta));
+      //
+      //           console.log(theta);
+      //
+      //           //code to set the arrow to north on open
+      //           ////////////////////////////////////////
+      //           navigator.geolocation.getCurrentPosition(function(myData){
+      //             console.log(data);
+      //             console.log("their data should be: " +data);
+      //             console.log("my location should be: "+myData);
+      //             var latdif = (Math.abs(data.location.lat - myData.coords.latitude)*110570);
+      //             var longdif = (Math.abs(data.location.long - myData.coords.longitude)*92000);
+      //             var totalDist = Math.sqrt((latdif*latdif) + (longdif*longdif));
+      //             console.log("distance difference is "+latdif+" meters");
+      //             console.log('their lat: '+data.location.lat);
+      //             console.log('our lat: '+myData.coords.latitude);
+      //             $('#sender').html("sender is: "+data.sender);
+      //             $('#latitude').html("long is: "+data.location.lat);
+      //             $('#longitude').html("long is: "+data.location.long);
+      //             $('#compass').html("orientation is " +data.orientation);
+      //
+      //             lat1 = data.location.lat;
+      //             lat2 = myData.coords.latitude;
+      //             lon1 = data.location.long;
+      //             lon2 = myData.coords.longitude;
+      //
+      //             var R = 6371; // km
+      //             var dLat = (lat2-lat1)*0.017453292519943295;
+      //             var dLon = (lon2-lon1)*0.017453292519943295;
+      //             var lat1 = lat1*.017453292519943295;
+      //             var lat2 = lat2*0.017453292519943295;
+      //
+      //             var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      //                     Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+      //             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      //             var d = R * c;
+      //
+      //             console.log("fancy distance should be(c): "+c)
+      //             console.log("fancy distance should be(d): "+d*1000);
+      //             $('#distance').html('distance is: '+d*1000);
+      //
+      //             //begin code for the arrow
+      //             //////////////////////////
+      //
+      //             lat1 = data.location.lat;
+      //             console.log(lat1);
+      //             lat2 = myData.coords.latitude;
+      //             console.log(lat2);
+      //             lon1 = data.location.long;
+      //             console.log(lon1);
+      //             lon2 = myData.coords.longitude;
+      //             console.log(lon2);
+      //             ///note this code doubles out a previous change, you must alter this before any kind of real deployment///////////////////////
+      //
+      //             var angle = data.orientation;
+      //             console.log(angle);
+      //             var container = document.querySelector('#arrowImage');
+      //             //begin first attempt at tracking based on location
+      //             ///////////////////////////////////////////////////
+      //
+      //             var delta = lon2 - lon1;
+      //             console.log("delta is: "+delta)
+      //
+      //             var theta = Math.atan2( Math.sin(delta)*Math.cos(lat2), Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(delta));
+      //
+      //             console.log(theta);
+      //
+      //             //code to set the arrow to north on open
+      //             ////////////////////////////////////////
+      //             console.log('our compass direction is...');
+      //             console.log("c is: "+c);
+      //
+      //
+      //
+      //             container.style.webkitTransform = "rotate(" + angle + "deg)";
+      //             // container.style.webkitTransform = "rotate3d(1,0, 0, " +x+ "deg)";
+      //             x+=10;
+      //             // console.log(x);
+      //             return x;
+      //
+      //           })
+      //
+      //
+      //
+      //
+      //           container.style.webkitTransform = "rotate(" + angle + "deg)";
+      //           // container.style.webkitTransform = "rotate3d(1,0, 0, " +x+ "deg)";
+      //           x+=10;
+      //           // console.log(x);
+      //           return x;
+      //
+      //         })
+      //
+      //   })};
+
+
+
+
+      // });
+
+      //   function $(el) {
+      //     return document.getElementById(el);
+      // }
+
+      function deviceOrientationHandler(c) {
+
+        var location = navigator.geolocation.getCurrentPosition(function(data){
+          var sender = $('#name').val();
+          console.log("orientation is "+c);
+          console.log(data)
+          var myLocation = {long: data.coords.longitude, lat: data.coords.latitude}
+          socket.emit('arrow-test', {sender: sender, location: myLocation, orientation: c});
+
+        })
+      }
+
+      //begin new arrow rotation scheme to point to end user
+      //////////////////////////////////////////////////////
+
+      $('#arrowButton').on('click', function(){
+        console.log('whatup');
+        navigator.geolocation.getCurrentPosition(function(geoloc){
+          console.log(geoloc);
+          console.log("lat: "+geoloc.coords.latitude);
+          console.log("long: "+geoloc.coords.longitude);
+          var long = geoloc.coords.longitude;
+          var lat = geoloc.coords.latitude;
+          socket.emit('arrowSocket', {lat: lat, long: long})
+        })
+      })
+
+      socket.on('arrowSocket', function(data){
+        /// note: data is an object holding the other person's coordinate data
+        console.log(data);
+        console.log(data.lat);
+        console.log(data.long);
+        navigator.geolocation.getCurrentPosition(function(myGeoloc){
+          console.log ("my data "+data);
+          console.log(data);
+          console.log('their data' + myGeoloc);
+          console.log(myGeoloc);
+          if(window.DeviceOrientationEvent){
+            var myGeoLoc = myGeoloc;
+            console.log(myGeoloc)
+            var lat1 = data.lat;
+            var lon1 = data.long;
+
+            var lat2 = myGeoloc.coords.latitude;
+            var lon2 = myGeoloc.coords.longitude;
+
+            console.log(lat1 +" "+ lon1);
+
+            function distance(latit1, longit1, latit2, longit2, unit) {
+
+              var radlat1 = Math.PI * lat1/180
+
+              var radlat2 = Math.PI * lat2/180
+
+              var radlon1 = Math.PI * lon1/180
+
+              var radlon2 = Math.PI * lon2/180
+
+              var theta = lon1-lon2
+
+              var radtheta = Math.PI * theta/180
+
+              var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+
+              dist = Math.acos(dist)
+
+              dist = dist * 180/Math.PI
+
+              dist = dist * 60 * 1.1515
+
+              if (unit=="K") { dist = dist * 1.609344 }
+
+              if (unit=="M") { dist = dist * 1609.344 }
+
+              if (unit=="N") { dist = dist * 0.8684 }
+
+              $('#test3').html("distance is: "+ dist+" meters");
+
+              console.log('their distance is: '+dist);
+
+              socket.emit('testing', dist)
+
+              return dist
+
+            }
+            distance(lat1, lon1, lat2, lon2, "M");
+
+            socket.on('testing', function(distData){
+              console.log('distance was a: '+distData+ ' meters');
+            });
+            ///begin rapid-fire orientation event
+          window.addEventListener('deviceorientation', function(orient){
+            console.log("orientation location is" +orient);
+            console.log(orient);
+            var orientation = (orient.compassHeading || orient.webkitCompassHeading || 0);
+            console.log("orientation is: "+orientation);
+            // console.log('degrees to north is: '+360 - orientation);
+            $('#myOrientation').html("this device orientation: "+orientation);
+            $()
+
+            ////begin caluclating angle
+
+            //begin angle measurements between the two points
+            //formula from http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/
+            var x = Math.cos(lat2)*Math.sin(lon2 - lon1);
+            console.log(x);
+            var y = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2 - lon1);
+            console.log(y);
+
+            var thetaAngleDeg = (Math.atan2(x, y)*57.2957795);
+            console.log(thetaAngleDeg*57.2957795);
+
+            $('#test1').html("theta is: "+thetaAngleDeg)
+
+
+
+            ////end angle measurement between points
+
+
+            var image = document.querySelector('#arrImage');
+            console.log(image);
+
+            var arrow = document.querySelector('#arrImage');
+            console.log(arrow);
+            // arrow.addEventListener('click', function(){
+            //   console.log('clicked');
+            // var arrowMovement = thetaAngleDeg - orientation; trying something new
+            var toNorth = -(orientation);
+            var arrowMovement = toNorth+thetaAngleDeg;
+            console.log(arrowMovement);
+            $('#test2').html(" arrow should move: "+arrowMovement);
+            $('#theta').html("arrow move to N is " +arrowMovement);
+            arrow.style.webkitTransform = "rotate(" + arrowMovement + "deg)"
+            // })
+            //end angle caluclation
+
+          })
+        }
+      })
+    })
+      /////end new arrow tracking attempt
+      ///////////////////////////////////
+
+
+
+
+
+})
+    </script>
+  </body>
+</html>
