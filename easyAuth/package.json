@@ -1,6 +1,6 @@
 {
   "name": "node-authentication",
-  "main": "server.js",
+  "main": "app.js",
   "dependencies": {
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
