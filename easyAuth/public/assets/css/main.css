@@ -917,6 +917,7 @@
 		.image img {
 			display: block;
 			width: 100%;
+			border-radius: 50%;
 		}
 
 		.image.fit {
@@ -957,6 +958,7 @@
 		background-color: #222222;
 		color: #ffffff;
 		border: 0;
+		border-radius: 10px;
 		cursor: pointer;
 		outline: 0;
 		-moz-transition: background-color .25s ease-in-out;
