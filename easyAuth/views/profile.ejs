@@ -13,6 +13,8 @@
   <noscript>
     <link rel="stylesheet" href="assets/css/noscript.css" />
   </noscript>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <style>
     body {
       padding-top: 80px;
@@ -35,36 +37,20 @@
         <!-- <i class="material-icons">attach_file</i>
           <i class="material-icons">settings</i> -->
         <!-- <i class="material-icons">refresh</i> -->
+
         <i class="material-icons">search</i>
         <i class="material-icons">explore</i>
         <h1>Your Profile</h1>
-        <i class="material-icons">public</i>
-        <!-- <i class="material-icons">autorenew</i> -->
-        <!-- <i class="material-icons">add</i> -->
+        <img class="img-circle" src="<%=user.facebook.picture %>" width="50" height="50" />
+        <br>
+        <%= user.facebook.name %>
+          <br>
+          <!-- <i class="material-icons">autorenew</i> -->
+          <!-- <i class="material-icons">add</i> -->
       </div>
       <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
-    <div class="row span6">
-
-      <!-- FACEBOOK INFORMATION -->
-      <div class="col-sm-2 col-centered span6">
-        <div class="well">
-
-          <p>
-            <!-- <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br> -->
-            <img class="img-circle" src="<%=user.facebook.picture %>" width="50" height="50" />
-            <br>
-            <%= user.facebook.name %>
-              <br>
-
-          </p>
-
-        </div>
-      </div>
-
-    </div>
 
   </div>
   <!-- Wrapper-->
@@ -81,8 +67,6 @@
       <a href="#contact" class="icon fa-envelope">
         <span>Contact</span>
       </a>
-      <a href="#" class="icon fa-twitter">
-        <span>Twitter</span>
       </a>
     </nav>
 
@@ -92,84 +76,93 @@
       <!-- Me -->
       <article id="me" class="panel">
         <header>
-          <h1>Jane Doe</h1>
-          <p>Senior Astral Projectionist</p>
         </header>
-        <a href="#work" class="jumplink pic">
+        <a href="#work" class="img-circle">
           <span class="arrow icon fa-chevron-right">
-            <span>See my work</span>
           </span>
-          <img src="images/me.jpg" alt="" />
+          <img class="img-circle" src="<%=user.facebook.picture %>" width="50" height="50" />
         </a>
       </article>
       <div>
         <article id="work" class="panel">
           <header>
-            <h2>Work</h2>
+            <h2>Your Friends</h2>
           </header>
           <p>
-            Phasellus enim sapien, blandit ullamcorper elementum eu, condimentum eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia luctus elit eget interdum.
+            Tap one of your friends to send them a request!
           </p>
           <section>
             <div class="row">
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic01.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8794.JPG" alt="">
+                  Cris
                 </a>
               </div>
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic02.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8777.JPG" alt="">
+                  Ben
                 </a>
               </div>
               <div class="4u$ 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic03.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8796.JPG" alt="">
+                  Jimmy
                 </a>
               </div>
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic04.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8819.JPG" alt="">
+                  David
                 </a>
               </div>
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic05.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8830.JPG" alt="">
+                  Jack
                 </a>
               </div>
               <div class="4u$ 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic06.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8927.JPG" alt="">
+                  Peter
                 </a>
               </div>
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic07.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8880.JPG" alt="">
+                  John
                 </a>
               </div>
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic08.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8861.JPG" alt="">
+                  Blaise
                 </a>
               </div>
               <div class="4u$ 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic09.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8853.JPG" alt="">
+                  Jesse
                 </a>
               </div>
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic10.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8841.JPG" alt="">
+                  Chloe
                 </a>
               </div>
               <div class="4u 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic11.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_8943.JPG" alt="">
+                  Pericles
                 </a>
               </div>
               <div class="4u$ 12u$(mobile)">
                 <a href="#" class="image fit">
-                  <img src="images/pic12.jpg" alt="">
+                  <img src="WDI_Headshots/IMG_9086.JPG" alt="">
+                  Doge
                 </a>
               </div>
             </div>
@@ -177,8 +170,8 @@
         </article>
       </div>
       <!-- <div> -->
-        <!-- Contact -->
-        <!-- <article id="contact" class="panel">
+      <!-- Contact -->
+      <!-- <article id="contact" class="panel">
           <header>
             <h2>Contact Us</h2>
           </header>
@@ -205,6 +198,18 @@
           </form>
         </article> -->
       <!-- </div> -->
+
+      <script>
+        $(function() {
+          var myList = [
+            "Addison", "Ben", "Christine", "Chloe", "Cris", "Dane", "David H", "David Z", "Emily", "Imtaek", "Jack", "Jesse Z", "Jonathan", "Pericles", "Peter", "Philippe", "Sergio", "Simon", "Trevor"
+          ];
+          $("#myval").autocomplete({
+            source: myList
+          });
+        });
+      </script>
+
       <script src="assets/js/jquery.min.js"></script>
       <script src="assets/js/skel.min.js"></script>
       <script src="assets/js/skel-viewport.min.js"></script>
